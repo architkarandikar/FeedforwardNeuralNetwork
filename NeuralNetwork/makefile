@@ -1,0 +1,2 @@
+all:
+	g++ NeuralNetwork.cpp NeuralNetworkTest.cpp ../Layers/Layer.cpp ../Neurons/Neuron.cpp ../Datasets/Dataset.cpp ../ActivationFunctions/ReluActivationFunction.cpp ../ActivationFunctions/TanhActivationFunction.cpp ../LossFunctions/SquaredErrorLossFunction.cpp -o NeuralNetworkTest

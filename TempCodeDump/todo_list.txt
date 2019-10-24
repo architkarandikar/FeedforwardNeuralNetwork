@@ -1,0 +1,1 @@
+Formatting for cin, fin, cout, fout
