@@ -2,8 +2,8 @@
 
 using namespace std;
 
-Neuron::Neuron(int in_degree, double learning_rate, ActivationFunction& activation_function):
-	in_degree_(in_degree), learning_rate_(learning_rate), activation_function_(activation_function)
+Neuron::Neuron(int in_degree, double learning_rate, ActivationFunction& activation_function, NeuronWeightInitializer& neuron_weight_initializer):
+	in_degree_(in_degree), learning_rate_(learning_rate), activation_function_(activation_function), neuron_weight_initializer_(neuron_weight_initializer)
 {
 	assert(0.0 - eps_ < learning_rate and learning_rate < 1.0 + eps_);
 	assert(in_degree > 0);
@@ -11,17 +11,17 @@ Neuron::Neuron(int in_degree, double learning_rate, ActivationFunction& activati
 	weights_ = vector<double>(in_degree);
 	for(int i = 0; i < in_degree_; ++i)
 	{
-		weights_[i] = 0.01 * ((double)(rand())) / ((double)(RAND_MAX));
+		weights_[i] = neuron_weight_initializer_.getWeight();
 		//weights_[i] = -1.0 + 2.0 * ((double)(rand())) / ((double)(RAND_MAX));
 	}
-	bias_ = ((double)(rand())) / ((double)(RAND_MAX));
+	bias_ = neuron_weight_initializer_.getBias();
 }
 
 double Neuron::evaluate(const vector<double>& inputs) const
 {
 	assert((int)inputs.size() == in_degree_);
 
-	double c = combine(inputs);
+	//double c = combine(inputs);
 	//cout<<"@@ "<<c<<" "<<activation_function_.getActivation(c)<<"\n";
 	//cout<<"@@ "; printWeights();
 

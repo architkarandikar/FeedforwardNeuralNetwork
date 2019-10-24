@@ -1,6 +1,7 @@
 #include "../ActivationFunctions/ReluActivationFunction.h"
 #include "../ActivationFunctions/TanhActivationFunction.h"
 #include "../LossFunctions/SquaredErrorLossFunction.h"
+#include "../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.h"
 #include "NeuralNetwork.h"
 
 using namespace std;
@@ -12,10 +13,11 @@ int main()
 	ReluActivationFunction relu_activation_function;
 	TanhActivationFunction tanh_activation_function;
 	SquaredErrorLossFunction squared_error_loss_function;
+	UniformlyRandomNeuronWeightInitializer uniformlyRandomNeuronWeightInitializer(0.0, 1.0);
 
 	Layer layers_array[2] = {
-		Layer(5, 3, 0.1, relu_activation_function),
-		Layer(3, 1, 0.1, tanh_activation_function)
+		Layer(5, 3, 0.1, relu_activation_function, uniformlyRandomNeuronWeightInitializer),
+		Layer(3, 1, 0.1, tanh_activation_function, uniformlyRandomNeuronWeightInitializer)
 	};
 	vector<Layer> layers(layers_array, layers_array + 2);
 
@@ -32,7 +34,7 @@ int main()
 	cout<<"~~~~~~~~\n";
 	cout<<"Evaluate all 1s: "<<neuralNetwork.evaluate(vector<double>(5, 1.0))<<"\n";
 	cout<<"~~~~~~~~\n";
-	for (int i = 0; i <= 300; ++i)
+	for (int i = 0; i <= 500; ++i)
 	{
 		if (i % 50 == 0)
 			cout<<"Backpropagation #"<<i<<"\n";

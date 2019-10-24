@@ -1,4 +1,5 @@
 #include "../ActivationFunctions/ReluActivationFunction.h"
+#include "../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.h"
 #include "Layer.h"
 
 using namespace std;
@@ -8,7 +9,8 @@ int main()
 	srand(time(NULL));
 
 	ReluActivationFunction reluActivationFunction;
-	Layer layer(5, 3, 0.1, reluActivationFunction);
+	UniformlyRandomNeuronWeightInitializer uniformlyRandomNeuronWeightInitializer(0.0, 1.0);
+	Layer layer(5, 3, 0.1, reluActivationFunction, uniformlyRandomNeuronWeightInitializer);
 
 	cout<<"--------\n";
 	cout<<"In Degree: "<<layer.getInDegree()<<", Out Degree: "<<layer.getOutDegree()<<"\n";

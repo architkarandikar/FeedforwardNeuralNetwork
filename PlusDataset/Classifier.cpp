@@ -4,12 +4,13 @@
 #include "../ActivationFunctions/LinearActivationFunction.h"
 #include "../ActivationFunctions/SigmoidActivationFunction.h"
 #include "../LossFunctions/SquaredErrorLossFunction.h"
+#include "../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.h"
 #include "../Datasets/Dataset.h"
 #include "../NeuralNetwork/NeuralNetwork.h"
 
 using namespace std;
 
-const int num_epochs = 10;
+const int num_epochs = 5;
 
 int main()
 {
@@ -21,10 +22,11 @@ int main()
 	LinearActivationFunction linear_activation_function;
 	SigmoidActivationFunction sigmoid_activation_function;
 	SquaredErrorLossFunction squared_error_loss_function;
+	UniformlyRandomNeuronWeightInitializer uniformly_random_neuron_weight_initializer(0.0, 0.01);
 
 	Layer layers_array[2] = {
-		Layer(400, 40, 0.1, leaky_relu_activation_function),
-		Layer(40, 1, 0.1, sigmoid_activation_function)
+		Layer(400, 40, 0.1, leaky_relu_activation_function, uniformly_random_neuron_weight_initializer),
+		Layer(40, 1, 0.1, sigmoid_activation_function, uniformly_random_neuron_weight_initializer)
 	};
 	vector<Layer> layers(layers_array, layers_array + 2);
 

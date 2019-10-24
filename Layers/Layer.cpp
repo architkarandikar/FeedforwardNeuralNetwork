@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Layer::Layer(int in_degree, int out_degree, double learning_rate, ActivationFunction& activation_function):
+Layer::Layer(int in_degree, int out_degree, double learning_rate, ActivationFunction& activation_function, NeuronWeightInitializer& neuron_weight_initializer):
 	in_degree_(in_degree), out_degree_(out_degree)
 {
 	assert(0.0 - eps_ < learning_rate and learning_rate < 1.0 + eps_);
@@ -12,7 +12,7 @@ Layer::Layer(int in_degree, int out_degree, double learning_rate, ActivationFunc
 	neurons_.clear();
 	for(int i = 0; i < out_degree_; ++i)
 	{
-		neurons_.push_back(Neuron(in_degree, learning_rate, activation_function));
+		neurons_.push_back(Neuron(in_degree, learning_rate, activation_function, neuron_weight_initializer));
 	}
 }
 

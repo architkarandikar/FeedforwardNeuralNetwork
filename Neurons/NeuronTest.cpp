@@ -1,4 +1,5 @@
 #include "../ActivationFunctions/ReluActivationFunction.h"
+#include "../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.h"
 #include "Neuron.h"
 
 using namespace std;
@@ -8,7 +9,8 @@ int main()
 	srand(time(NULL));
 	
 	ReluActivationFunction reluActivationFunction;
-	Neuron neuron(5, 0.1, reluActivationFunction);
+	UniformlyRandomNeuronWeightInitializer uniformlyRandomNeuronWeightInitializer(0.0, 1.0);
+	Neuron neuron(5, 0.1, reluActivationFunction, uniformlyRandomNeuronWeightInitializer);
 
 	cout<<"--------\n";
 	cout<<"Neuron weights: "; neuron.printWeights();
