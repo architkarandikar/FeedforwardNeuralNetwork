@@ -13,7 +13,8 @@
 
 using namespace std;
 
-const int num_epochs = 1;
+const int num_epochs = 5;
+const double threshold_increment = 0.05;
 
 int main()
 {
@@ -50,6 +51,15 @@ int main()
 	cout<<"Test Loss: "<<neuralNetwork.test(test_dataset)<<"\n";
 	cout<<"--------\n";
 
+	vector<double> thresholds(0);
+	int num_thresholds = 0;
+	for(double threshold = threshold_increment; threshold < 1.0 - eps_; threshold += threshold_increment)
+	{
+		thresholds.push_back(threshold);
+		++num_thresholds;
+	}
+	vector<int> true_positives(num_thresholds, 0), true_negatives(num_thresholds, 0), false_positives(num_thresholds, 0), false_negatives(num_thresholds, 0);
+
 	ofstream fout;
 	fout.open("tmp_op.txt");
 	for(int i = 0; i < test_dataset.getNumSamples(); ++i)
@@ -64,9 +74,43 @@ int main()
 		for(int x = 0; x < 28; ++x)
 		{
 			for(int y = 0; y < 28; ++y)
+			{
 				fout<<setfill('0')<<setw(3)<<(int)(feature_vector[28 * x + y] + 0.1);
+			}
 			fout<<"\n";
 		}
 		fout<<"--------\n";
+
+		for(int j = 0; j < num_thresholds; ++j)
+		{
+			if(eval >= thresholds[j])
+			{
+				if(label)
+					++true_positives[j];
+				else
+					++false_positives[j];
+			}
+			else
+			{
+				if(label)
+					++false_negatives[j];
+				else
+					++true_negatives[j];
+			}
+		}
+	}
+
+	cout<<"\n----------\n";
+	for(int i = 0; i < num_thresholds; ++i)
+	{
+		double precision = 1.0 * true_positives[i] / (true_positives[i] + false_positives[i]);
+		double recall = 1.0 * true_positives[i] / (true_positives[i] + false_negatives[i]);
+		double accuracy = 1.0 * (true_positives[i] + true_negatives[i]) / test_dataset.getNumSamples();
+		double f1 = 2.0 / (1.0 / precision + 1.0 / recall);
+		cout<<"threshold: "<<fixed<<setw(4)<<setprecision(2)<<thresholds[i];
+		cout<<"    precision: "<<fixed<<setw(7)<<setprecision(5)<<precision;
+		cout<<"    recall: "<<fixed<<setw(7)<<setprecision(5)<<recall;
+		cout<<"    f1: "<<fixed<<setw(7)<<setprecision(5)<<f1;
+		cout<<"    accuracy: "<<fixed<<setw(7)<<setprecision(5)<<f1<<"\n";
 	}
 }

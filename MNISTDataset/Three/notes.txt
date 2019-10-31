@@ -31,3 +31,54 @@ Average Loss for Epoch #4: 0.102183
 Test Loss: 0.101
 ----------------
 ----------------
+
+
+
+----------------
+----------------
+784-200-1, learning rate: 0.001, squared error loss, 1 epoch
+--------
+threshold: 0.05    precision: 0.88332    recall: 0.95941    f1: 0.91979    accuracy: 0.91979
+threshold: 0.10    precision: 0.91288    recall: 0.95446    f1: 0.93320    accuracy: 0.93320
+threshold: 0.15    precision: 0.92197    recall: 0.94752    f1: 0.93457    accuracy: 0.93457
+threshold: 0.20    precision: 0.93425    recall: 0.94257    f1: 0.93839    accuracy: 0.93839
+threshold: 0.25    precision: 0.94129    recall: 0.93663    f1: 0.93896    accuracy: 0.93896
+threshold: 0.30    precision: 0.94684    recall: 0.93465    f1: 0.94071    accuracy: 0.94071
+threshold: 0.35    precision: 0.95248    recall: 0.93267    f1: 0.94247    accuracy: 0.94247
+threshold: 0.40    precision: 0.95533    recall: 0.93168    f1: 0.94336    accuracy: 0.94336
+threshold: 0.45    precision: 0.95918    recall: 0.93069    f1: 0.94472    accuracy: 0.94472
+threshold: 0.50    precision: 0.96373    recall: 0.92079    f1: 0.94177    accuracy: 0.94177
+threshold: 0.55    precision: 0.96545    recall: 0.91287    f1: 0.93842    accuracy: 0.93842
+threshold: 0.60    precision: 0.96918    recall: 0.90297    f1: 0.93491    accuracy: 0.93491
+threshold: 0.65    precision: 0.97087    recall: 0.89109    f1: 0.92927    accuracy: 0.92927
+threshold: 0.70    precision: 0.97486    recall: 0.88317    f1: 0.92675    accuracy: 0.92675
+threshold: 0.75    precision: 0.97993    recall: 0.87030    f1: 0.92187    accuracy: 0.92187
+threshold: 0.80    precision: 0.98524    recall: 0.85941    f1: 0.91803    accuracy: 0.91803
+threshold: 0.85    precision: 0.98733    recall: 0.84851    f1: 0.91267    accuracy: 0.91267
+threshold: 0.90    precision: 0.99157    recall: 0.81485    f1: 0.89457    accuracy: 0.89457
+threshold: 0.95    precision: 0.99212    recall: 0.74752    f1: 0.85263    accuracy: 0.85263
+----------------
+----------------
+784-200-1, learning rate: 0.001, squared error loss, 5 epochs
+--------
+threshold:  0.05 precision:  0.97528 recall:  0.93762
+threshold:  0.10 precision:  0.98029 recall:  0.93564
+threshold:  0.15 precision:  0.98125 recall:  0.93267
+threshold:  0.20 precision:  0.98323 recall:  0.92871
+threshold:  0.25 precision:  0.98314 recall:  0.92376
+threshold:  0.30 precision:  0.98413 recall:  0.92079
+threshold:  0.35 precision:  0.98616 recall:  0.91683
+threshold:  0.40 precision:  0.98717 recall:  0.91386
+threshold:  0.45 precision:  0.98712 recall:  0.91089
+threshold:  0.50 precision:  0.98812 recall:  0.90594
+threshold:  0.55 precision:  0.98803 recall:  0.89901
+threshold:  0.60 precision:  0.98800 recall:  0.89703
+threshold:  0.65 precision:  0.98798 recall:  0.89505
+threshold:  0.70 precision:  0.98796 recall:  0.89406
+threshold:  0.75 precision:  0.98787 recall:  0.88713
+threshold:  0.80 precision:  0.98883 recall:  0.87624
+threshold:  0.85 precision:  0.98984 recall:  0.86832
+threshold:  0.90 precision:  0.99082 recall:  0.85446
+threshold:  0.95 precision:  0.99296 recall:  0.83762
+----------------
+----------------
