@@ -71,22 +71,10 @@ void printSampleAsGrid(bool grid[s][s], ostream& fout)
 	{
 		for(int j = 0; j < s; ++j)
 		{
-			fout<<grid[i][j];
+			fout<<grid[i][j]<<" ";
 		}
 		fout<<"\n";
 	}
-}
-
-void printSampleAsList(bool grid[s][s], ostream& fout)
-{
-	for(int i = 0; i < s; ++i)
-	{
-		for(int j = 0; j < s; ++j)
-		{
-			fout<<grid[i][j]<<" ";
-		}
-	}
-	fout<<"\n";
 }
 
 void generateFile(string file_name, int nsamples)
@@ -95,20 +83,21 @@ void generateFile(string file_name, int nsamples)
 
 	ofstream fout;
 	fout.open(file_name);
-	fout<<nsamples<<" "<<s * s<<"\n";
+	fout<<nsamples<<" "<<s * s<<"\n\n";
 	for(int i = 0; i < nsamples; ++i)
 	{
 		if (rand() % 2 == 1)
 		{
 			generatePositiveSample(grid);
-			fout<<"1 ";
+			fout<<"1\n";
 		}
 		else
 		{
 			generateNegativeSample(grid);
-			fout<<"0 ";
+			fout<<"0\n";
 		}
-		printSampleAsList(grid, fout);
+		printSampleAsGrid(grid, fout);
+		fout<<"\n";
 	}
 	fout.close();
 }

@@ -12,7 +12,6 @@ Neuron::Neuron(int in_degree, double learning_rate, ActivationFunction& activati
 	for(int i = 0; i < in_degree_; ++i)
 	{
 		weights_[i] = neuron_weight_initializer_.getWeight();
-		//weights_[i] = -1.0 + 2.0 * ((double)(rand())) / ((double)(RAND_MAX));
 	}
 	bias_ = neuron_weight_initializer_.getBias();
 }
@@ -20,10 +19,6 @@ Neuron::Neuron(int in_degree, double learning_rate, ActivationFunction& activati
 double Neuron::evaluate(const vector<double>& inputs) const
 {
 	assert((int)inputs.size() == in_degree_);
-
-	//double c = combine(inputs);
-	//cout<<"@@ "<<c<<" "<<activation_function_.getActivation(c)<<"\n";
-	//cout<<"@@ "; printWeights();
 
 	return activation_function_.getActivation(combine(inputs));
 }
@@ -48,13 +43,9 @@ void Neuron::backPropagate(double loss_derivative_wrt_output, const vector<doubl
 	for(int i = 0; i < in_degree_; ++i)
 	{
 		double loss_derivative_wrt_weight = loss_derivative_wrt_combination * inputs[i];
-		//loss_derivative_wrt_weight = min(loss_derivative_wrt_weight, 200.0);
-		//loss_derivative_wrt_weight = max(loss_derivative_wrt_weight, -200.0);
 		weights_[i] -= learning_rate_ * loss_derivative_wrt_weight;
 	}
 	double loss_derivative_wrt_bias = loss_derivative_wrt_combination;
-	//loss_derivative_wrt_bias = min(loss_derivative_wrt_bias, 200.0);
-	//loss_derivative_wrt_bias = max(loss_derivative_wrt_bias, -200.0);
 	bias_ -= learning_rate_ * loss_derivative_wrt_bias;
 	return;
 }

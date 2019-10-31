@@ -42,7 +42,6 @@ void NeuralNetwork::backPropagate(double expected_output, const vector<double>& 
 	assert((int)all_inputs.back().size() == 1);
 	double output = all_inputs.back()[0];
 	double loss_derivative_wrt_output = loss_function_.getDerivative(output, expected_output);
-	//cerr<<"loss_derivative_wrt_output: "<<loss_derivative_wrt_output<<" "<<output<<" "<<expected_output<<"\n";
 
 	vector<double> loss_derivative_wrt_outputs = vector<double>(1, loss_derivative_wrt_output);
 	for(int i = num_layers_ - 1; i >= 0; --i)
@@ -60,8 +59,10 @@ vector<double> NeuralNetwork::train(const Dataset& training_data_set, int num_ep
 	for(int i = 0; i < num_epochs; ++i)
 	{
 		cout<<"### Start of Epoch #"<<i<<"\n";
+
 		double loss = trainEpoch(training_data_set);
 		losses.push_back(loss);
+
 		cout<<"### End of Epoch #"<<i<<", Loss: "<<loss<<"\n";
 		cout<<"--------\n";
 	}
@@ -95,8 +96,6 @@ double NeuralNetwork::trainEpoch(const Dataset& training_data_set)
 		double eval = evaluate(feature_vector);
 		double loss = loss_function_.getLoss(eval, label);
 		total_loss += loss;
-		//cout<<"-----\n### Sample #"<<i<<" :: "<<eval<<" "<<label<<" :: "<<loss<<"\n-----\n";
-		//printWeights();
 
 		backPropagate(label, feature_vector);
 	}

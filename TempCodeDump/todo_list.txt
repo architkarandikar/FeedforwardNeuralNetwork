@@ -1,4 +1,0 @@
-Formatting for cin, fin, cout, fout
-consistent formatting for &
-Add optimization methods
-naming convention in test files

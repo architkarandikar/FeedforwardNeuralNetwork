@@ -64,13 +64,4 @@ int main()
 		}
 		cout<<"--------\n";
 	}
-
-	/*for(int i = 0; i < 10; ++i)
-	{
-		cout<<"Train example #"<<i<<":: \n";
-		double label = training_dataset.getLabel(i);
-		double eval = neuralNetwork.evaluate(training_dataset.getFeatureVector(i));
-		cout<<"Eval: "<<eval<<" Label: "<<label<<"\n";
-		cout<<"--------\n";
-	}*/
 }

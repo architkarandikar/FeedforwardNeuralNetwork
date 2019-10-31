@@ -1,0 +1,33 @@
+----------------
+----------------
+784-200-1, learning rate: 0.001, squared error loss
+--------
+Average Loss for Epoch #0: 0.0195465
+Average Loss for Epoch #1: 0.0125452
+Average Loss for Epoch #2: 0.0124001
+Average Loss for Epoch #3: 0.0101038
+Average Loss for Epoch #4: 0.0102481
+--------
+Test Loss: 0.00900241
+----------------
+----------------
+784-200-1, learning rate: 0.1, squared error loss
+--------
+All epoch average losses ~0.1 (which is the same as predicting 0 everytime)
+Test loss ~0.1
+Network gets stuck fast
+----------------
+----------------
+----------------
+----------------
+784-200-1, learning rate: 0.01, squared error loss
+--------
+Average Loss for Epoch #0: 0.102189
+Average Loss for Epoch #1: 0.102183
+Average Loss for Epoch #2: 0.102197
+Average Loss for Epoch #3: 0.102275
+Average Loss for Epoch #4: 0.102183
+--------
+Test Loss: 0.101
+----------------
+----------------

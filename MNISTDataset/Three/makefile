@@ -1,0 +1,2 @@
+all:
+	g++ Classifier.cpp ../../NeuralNetwork/NeuralNetwork.cpp ../../Layers/Layer.cpp ../../Neurons/Neuron.cpp ../../Datasets/Dataset.cpp ../../ActivationFunctions/ReluActivationFunction.cpp ../../ActivationFunctions/TanhActivationFunction.cpp ../../ActivationFunctions/LeakyReluActivationFunction.cpp ../../ActivationFunctions/LinearActivationFunction.cpp ../../ActivationFunctions/SigmoidActivationFunction.cpp ../../LossFunctions/SquaredErrorLossFunction.cpp ../../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.cpp -o Classifier
