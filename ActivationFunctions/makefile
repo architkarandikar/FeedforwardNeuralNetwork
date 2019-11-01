@@ -1,2 +1,2 @@
 all:
-	g++ ActivationFunctionTest.cpp TanhActivationFunction.cpp ReluActivationFunction.cpp LeakyReluActivationFunction.cpp LinearActivationFunction.cpp SigmoidActivationFunction.cpp -o ActivationTest
+	g++ ActivationFunctionTest.cpp ActivationFunction.cpp TanhActivationFunction.cpp ReluActivationFunction.cpp LeakyReluActivationFunction.cpp LinearActivationFunction.cpp SigmoidActivationFunction.cpp -o ActivationTest

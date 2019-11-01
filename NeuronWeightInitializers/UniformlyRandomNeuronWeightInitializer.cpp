@@ -19,3 +19,8 @@ double UniformlyRandomNeuronWeightInitializer::uniformlyRandomInRange() const
 {
 	return left_range_ + ((double)(rand())) / ((double)(RAND_MAX)) * (right_range_ - left_range_);
 }
+
+ostream& UniformlyRandomNeuronWeightInitializer::print(ostream &out) const
+{
+	return out<<"UniformlyRandomNeuronWeightInitializer "<<left_range_<<" "<<right_range_;
+}

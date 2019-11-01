@@ -19,6 +19,8 @@ public:
 
 	void printWeights() const;
 
+	friend ostream& operator <<(ostream &out, const Neuron &neuron);
+
 private:
 
 	int in_degree_;

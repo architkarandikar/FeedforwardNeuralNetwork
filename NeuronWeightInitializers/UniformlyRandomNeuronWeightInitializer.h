@@ -1,4 +1,5 @@
 #include "NeuronWeightInitializer.h"
+#include <cxxabi.h>
 
 using namespace std;
 
@@ -9,6 +10,9 @@ public:
 
 	double getWeight() const;
 	double getBias() const;
+
+	ostream& print(ostream &out) const;
+	//friend ostream& operator<<(ostream &out, const UniformlyRandomNeuronWeightInitializer &uniformly_random_neuron_weight_initializer);
 private:
 	double left_range_, right_range_;
 

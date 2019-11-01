@@ -20,6 +20,8 @@ public:
 
 	void printWeights() const;
 
+	friend ostream& operator <<(ostream &out, const NeuralNetwork &neural_network);
+
 private:
 	int in_degree_;
 	int num_layers_;

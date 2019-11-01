@@ -4,6 +4,9 @@ using namespace std;
 
 void neuronWeightInitializerPrintTest(const NeuronWeightInitializer &nwi)
 {
+	cout<<"---------\n";
+	cout<<nwi<<"\n";
+	cout<<"---------\n";
 	cout<<"Weights: \n";
 	for(int i = 0; i < 5; ++i)
 		printf("%.4f ", nwi.getWeight());
@@ -11,7 +14,8 @@ void neuronWeightInitializerPrintTest(const NeuronWeightInitializer &nwi)
 	cout<<"Biases: \n";
 	for(int i = 0; i < 5; ++i)
 		printf("%.4f ", nwi.getBias());
-	cout<<"\n\n";
+	cout<<"\n";
+	cout<<"---------\n";
 }
 
 int main()

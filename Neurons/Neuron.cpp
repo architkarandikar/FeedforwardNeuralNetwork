@@ -75,3 +75,17 @@ void Neuron::printWeights() const
 	cout<<"\n";
 	return;
 }
+
+ostream& operator <<(ostream &out, const Neuron &neuron)
+{
+	out<<neuron.in_degree_<<" "<<neuron.learning_rate_<<"\n"<<neuron.activation_function_<<"\n"<<neuron.neuron_weight_initializer_<<"\n"<<neuron.bias_<<"\n";
+	for(int i = 0; i < neuron.in_degree_; ++i)
+	{
+		if (i > 0)
+		{
+			cout<<" ";
+		}
+		out<<neuron.weights_[i];
+	}
+	return out;
+}

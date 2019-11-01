@@ -98,6 +98,11 @@ double NeuralNetwork::trainEpoch(const Dataset& training_data_set)
 		total_loss += loss;
 
 		backPropagate(label, feature_vector);
+
+		if (i % 1000 == 0)
+		{
+			cout<<"Here, end of epoch # "<<i<<"\n";
+		}
 	}
 
 	double average_loss = total_loss / ((double)(num_samples));
@@ -132,4 +137,14 @@ void NeuralNetwork::printWeights() const
 		cout<<"Layer #"<<i<<":::\n";
 		layers_[i].printWeights();
 	}
+}
+
+ostream& operator <<(ostream &out, const NeuralNetwork &neural_network)
+{
+	out<<neural_network.in_degree_<<" "<<neural_network.loss_function_<<" "<<neural_network.num_layers_;
+	for(int i = 0; i < neural_network.num_layers_; ++i)
+	{
+		out<<"\n"<<neural_network.layers_[i];
+	}
+	return out;
 }

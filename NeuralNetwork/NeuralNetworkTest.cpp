@@ -47,4 +47,7 @@ int main()
 		}
 	}
 	cout<<"--------\n";
+	cout<<"Neural Network Output:\n";
+	cout<<neuralNetwork<<"\n";
+	cout<<"--------\n";
 }

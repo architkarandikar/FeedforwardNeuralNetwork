@@ -61,24 +61,24 @@ threshold: 0.95    precision: 0.99212    recall: 0.74752    f1: 0.85263    accur
 ----------------
 784-200-1, learning rate: 0.001, squared error loss, 5 epochs
 --------
-threshold:  0.05 precision:  0.97528 recall:  0.93762
-threshold:  0.10 precision:  0.98029 recall:  0.93564
-threshold:  0.15 precision:  0.98125 recall:  0.93267
-threshold:  0.20 precision:  0.98323 recall:  0.92871
-threshold:  0.25 precision:  0.98314 recall:  0.92376
-threshold:  0.30 precision:  0.98413 recall:  0.92079
-threshold:  0.35 precision:  0.98616 recall:  0.91683
-threshold:  0.40 precision:  0.98717 recall:  0.91386
-threshold:  0.45 precision:  0.98712 recall:  0.91089
-threshold:  0.50 precision:  0.98812 recall:  0.90594
-threshold:  0.55 precision:  0.98803 recall:  0.89901
-threshold:  0.60 precision:  0.98800 recall:  0.89703
-threshold:  0.65 precision:  0.98798 recall:  0.89505
-threshold:  0.70 precision:  0.98796 recall:  0.89406
-threshold:  0.75 precision:  0.98787 recall:  0.88713
-threshold:  0.80 precision:  0.98883 recall:  0.87624
-threshold:  0.85 precision:  0.98984 recall:  0.86832
-threshold:  0.90 precision:  0.99082 recall:  0.85446
-threshold:  0.95 precision:  0.99296 recall:  0.83762
+threshold: 0.05    precision: 0.85381    recall: 0.97723    f1: 0.91136    accuracy: 0.91136
+threshold: 0.10    precision: 0.86328    recall: 0.97525    f1: 0.91585    accuracy: 0.91585
+threshold: 0.15    precision: 0.87134    recall: 0.97228    f1: 0.91905    accuracy: 0.91905
+threshold: 0.20    precision: 0.87657    recall: 0.97030    f1: 0.92105    accuracy: 0.92105
+threshold: 0.25    precision: 0.87971    recall: 0.97030    f1: 0.92279    accuracy: 0.92279
+threshold: 0.30    precision: 0.88577    recall: 0.96733    f1: 0.92475    accuracy: 0.92475
+threshold: 0.35    precision: 0.88899    recall: 0.96733    f1: 0.92651    accuracy: 0.92651
+threshold: 0.40    precision: 0.89377    recall: 0.96634    f1: 0.92864    accuracy: 0.92864
+threshold: 0.45    precision: 0.89871    recall: 0.96634    f1: 0.93130    accuracy: 0.93130
+threshold: 0.50    precision: 0.90203    recall: 0.96634    f1: 0.93308    accuracy: 0.93308
+threshold: 0.55    precision: 0.90353    recall: 0.96436    f1: 0.93295    accuracy: 0.93295
+threshold: 0.60    precision: 0.90748    recall: 0.96139    f1: 0.93365    accuracy: 0.93365
+threshold: 0.65    precision: 0.91165    recall: 0.96040    f1: 0.93539    accuracy: 0.93539
+threshold: 0.70    precision: 0.91415    recall: 0.95941    f1: 0.93623    accuracy: 0.93623
+threshold: 0.75    precision: 0.91659    recall: 0.95743    f1: 0.93656    accuracy: 0.93656
+threshold: 0.80    precision: 0.91882    recall: 0.95248    f1: 0.93534    accuracy: 0.93534
+threshold: 0.85    precision: 0.92057    recall: 0.95248    f1: 0.93625    accuracy: 0.93625
+threshold: 0.90    precision: 0.92582    recall: 0.95149    f1: 0.93848    accuracy: 0.93848
+threshold: 0.95    precision: 0.93268    recall: 0.94653    f1: 0.93956    accuracy: 0.93956
 ----------------
 ----------------

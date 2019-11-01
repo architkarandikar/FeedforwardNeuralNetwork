@@ -46,5 +46,9 @@ int main()
 	cout<<"Neuron weights: "; neuron.printWeights();
 	cout<<"--------\n";
 
+	cout<<"Neuron output:\n";
+	cout<<neuron<<"\n";
+	cout<<"--------\n";
+
 	return 0;
 }

@@ -53,5 +53,9 @@ int main()
 	cout<<"Layer weights:\n"; layer.printWeights();
 	cout<<"--------\n";
 
+	cout<<"Layer output:\n";
+	cout<<layer<<"\n";
+	cout<<"--------\n";
+
 	return 0;
 }

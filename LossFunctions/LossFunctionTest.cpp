@@ -5,9 +5,12 @@ using namespace std;
 
 void lossFunctionPrintTest(const LossFunction &lf, double ref)
 {
+	printf("----------------------\n");
+	cout<<lf<<"\n----------------------\n";
+
 	for(double i = -3.0; i <= 3.0; i += 0.5)
 		printf("(%.1f,%.1f) :: %.10f :: %.10f\n", i, ref, lf.getLoss(1.0*i, ref), lf.getDerivative(1.0*i, ref));
-	printf("\n\n----------------------\n\n");
+	printf("----------------------\n");
 }
 
 int main()

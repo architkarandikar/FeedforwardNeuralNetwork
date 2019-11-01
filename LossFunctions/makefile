@@ -1,2 +1,2 @@
 all:
-	g++ LossFunctionTest.cpp SquaredErrorLossFunction.cpp LogCoshLossFunction.cpp -o LossFunctionTest
+	g++ LossFunctionTest.cpp LossFunction.cpp SquaredErrorLossFunction.cpp LogCoshLossFunction.cpp -o LossFunctionTest

@@ -1,2 +1,2 @@
 all:
-	g++ Layer.cpp LayerTest.cpp ../ActivationFunctions/ReluActivationFunction.cpp ../Neurons/Neuron.cpp ../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.cpp -o LayerTest
+	g++ Layer.cpp LayerTest.cpp ../ActivationFunctions/ReluActivationFunction.cpp ../ActivationFunctions/ActivationFunction.cpp ../Neurons/Neuron.cpp ../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.cpp ../NeuronWeightInitializers/NeuronWeightInitializer.cpp -o LayerTest

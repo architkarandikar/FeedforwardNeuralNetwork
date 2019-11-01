@@ -13,11 +13,19 @@
 
 using namespace std;
 
-const int num_epochs = 5;
 const double threshold_increment = 0.05;
 
-int main()
+int main(int argc, char** argv)
 {
+	assert(argc >= 4);
+
+	int num_epochs = atoi(argv[1]);
+	string model_storage_file_name = argv[2];
+	string test_output_file_name = argv[3];
+	cout<<"--------\n";
+	cout<<"Number of Epochs: "<<num_epochs<<"\nStore model in file: "<<model_storage_file_name<<"\nOutput test labels in file: "<<test_output_file_name<<"\n";
+	cout<<"--------\n";
+
 	srand(time(NULL)); rand();
 
 	ReluActivationFunction relu_activation_function;
@@ -60,26 +68,26 @@ int main()
 	}
 	vector<int> true_positives(num_thresholds, 0), true_negatives(num_thresholds, 0), false_positives(num_thresholds, 0), false_negatives(num_thresholds, 0);
 
-	ofstream fout;
-	fout.open("tmp_op.txt");
+	ofstream fout_test_output;
+	fout_test_output.open(test_output_file_name);
 	for(int i = 0; i < test_dataset.getNumSamples(); ++i)
 	{
 		double label = test_dataset.getLabel(i);
 		vector<double> feature_vector = test_dataset.getFeatureVector(i);
 		double eval = neuralNetwork.evaluate(feature_vector);
 
-		fout<<"Test example #"<<i<<":: \n";
-		fout<<"Prediction: "<<eval<<" Label: "<<label<<"\n";
-		fout<<"--------\n";
+		fout_test_output<<"Test example #"<<i<<":: \n";
+		fout_test_output<<"Prediction: "<<eval<<" Label: "<<label<<"\n";
+		fout_test_output<<"--------\n";
 		for(int x = 0; x < 28; ++x)
 		{
 			for(int y = 0; y < 28; ++y)
 			{
-				fout<<setfill('0')<<setw(3)<<(int)(feature_vector[28 * x + y] + 0.1);
+				fout_test_output<<setfill('0')<<setw(3)<<(int)(feature_vector[28 * x + y] + 0.1);
 			}
-			fout<<"\n";
+			fout_test_output<<"\n";
 		}
-		fout<<"--------\n";
+		fout_test_output<<"--------\n";
 
 		for(int j = 0; j < num_thresholds; ++j)
 		{
@@ -99,6 +107,7 @@ int main()
 			}
 		}
 	}
+	fout_test_output.close();
 
 	cout<<"\n----------\n";
 	for(int i = 0; i < num_thresholds; ++i)
@@ -113,4 +122,9 @@ int main()
 		cout<<"    f1: "<<fixed<<setw(7)<<setprecision(5)<<f1;
 		cout<<"    accuracy: "<<fixed<<setw(7)<<setprecision(5)<<f1<<"\n";
 	}
+
+	ofstream fout_store_model;
+	fout_store_model.open(model_storage_file_name);
+	fout_store_model<<neuralNetwork<<"\n";
+	fout_store_model.close();
 }

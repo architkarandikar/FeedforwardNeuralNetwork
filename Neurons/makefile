@@ -1,2 +1,2 @@
 all:
-	g++ Neuron.cpp NeuronTest.cpp ../ActivationFunctions/ReluActivationFunction.cpp ../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.cpp -o NeuronTest
+	g++ Neuron.cpp NeuronTest.cpp ../ActivationFunctions/ReluActivationFunction.cpp ../ActivationFunctions/ActivationFunction.cpp ../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.cpp ../NeuronWeightInitializers/NeuronWeightInitializer.cpp -o NeuronTest

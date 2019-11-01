@@ -76,3 +76,13 @@ int Layer::getOutDegree() const
 {
 	return out_degree_;
 }
+
+ostream& operator <<(ostream &out, const Layer &layer)
+{
+	out<<layer.in_degree_<<" "<<layer.out_degree_;
+	for(int i = 0; i < layer.out_degree_; ++i)
+	{
+		out<<"\n"<<layer.neurons_[i];
+	}
+	return out;
+}

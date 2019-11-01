@@ -19,6 +19,8 @@ public:
 
 	void printWeights() const;
 
+	friend ostream& operator <<(ostream &out, const Layer &layer);
+
 private:
 	int in_degree_;
 	int out_degree_;
