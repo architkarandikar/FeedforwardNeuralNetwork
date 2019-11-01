@@ -11,6 +11,10 @@ NeuralNetwork::NeuralNetwork(int in_degree, vector<Layer> layers, LossFunction& 
 	assert(num_layers_ > 0);
 
 	assert(layers[0].getInDegree() == in_degree);
+	for(int i = 0; i < num_layers_ - 1; ++i)
+	{
+		assert(layers[i].getOutDegree() == layers[i + 1].getInDegree());
+	}
 	assert(layers.back().getOutDegree() == 1);
 }
 
