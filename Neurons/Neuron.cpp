@@ -2,8 +2,10 @@
 
 using namespace std;
 
-Neuron::Neuron(int in_degree, double learning_rate, ActivationFunction& activation_function, NeuronWeightInitializer& neuron_weight_initializer):
-	in_degree_(in_degree), learning_rate_(learning_rate), activation_function_(activation_function), neuron_weight_initializer_(neuron_weight_initializer)
+Neuron::Neuron() {}
+
+Neuron::Neuron(int in_degree, double learning_rate, shared_ptr<ActivationFunction> activation_function_ptr, shared_ptr<NeuronWeightInitializer> neuron_weight_initializer_ptr):
+	in_degree_(in_degree), learning_rate_(learning_rate), activation_function_ptr_(activation_function_ptr)
 {
 	assert(0.0 - eps_ < learning_rate and learning_rate < 1.0 + eps_);
 	assert(in_degree > 0);
@@ -11,16 +13,16 @@ Neuron::Neuron(int in_degree, double learning_rate, ActivationFunction& activati
 	weights_ = vector<double>(in_degree);
 	for(int i = 0; i < in_degree_; ++i)
 	{
-		weights_[i] = neuron_weight_initializer_.getWeight();
+		weights_[i] = neuron_weight_initializer_ptr->getWeight();
 	}
-	bias_ = neuron_weight_initializer_.getBias();
+	bias_ = neuron_weight_initializer_ptr->getBias();
 }
 
 double Neuron::evaluate(const vector<double>& inputs) const
 {
 	assert((int)inputs.size() == in_degree_);
 
-	return activation_function_.getActivation(combine(inputs));
+	return activation_function_ptr_->getActivation(combine(inputs));
 }
 
 double Neuron::combine(const vector<double>& inputs) const
@@ -39,7 +41,7 @@ void Neuron::backPropagate(double loss_derivative_wrt_output, const vector<doubl
 {
 	assert((int)inputs.size() == in_degree_);
 
-	double loss_derivative_wrt_combination = loss_derivative_wrt_output * activation_function_.getDerivative(combine(inputs));
+	double loss_derivative_wrt_combination = loss_derivative_wrt_output * activation_function_ptr_->getDerivative(combine(inputs));
 	for(int i = 0; i < in_degree_; ++i)
 	{
 		double loss_derivative_wrt_weight = loss_derivative_wrt_combination * inputs[i];
@@ -54,7 +56,7 @@ vector<double> Neuron::getLossDerivativeWrtInputs(double loss_derivative_wrt_out
 {
 	assert((int)inputs.size() == in_degree_);
 
-	double loss_derivative_wrt_combination = loss_derivative_wrt_output * activation_function_.getDerivative(combine(inputs));
+	double loss_derivative_wrt_combination = loss_derivative_wrt_output * activation_function_ptr_->getDerivative(combine(inputs));
 	vector<double> loss_derivative_wrt_inputs(in_degree_);
 	for(int i = 0; i < in_degree_; ++i)
 	{
@@ -78,14 +80,26 @@ void Neuron::printWeights() const
 
 ostream& operator <<(ostream &out, const Neuron &neuron)
 {
-	out<<neuron.in_degree_<<" "<<neuron.learning_rate_<<"\n"<<neuron.activation_function_<<"\n"<<neuron.neuron_weight_initializer_<<"\n"<<neuron.bias_<<"\n";
+	out<<neuron.in_degree_<<" "<<neuron.learning_rate_<<"\n"<<neuron.activation_function_ptr_<<"\n"<<neuron.bias_<<"\n";
 	for(int i = 0; i < neuron.in_degree_; ++i)
 	{
 		if (i > 0)
 		{
-			cout<<" ";
+			out<<" ";
 		}
 		out<<neuron.weights_[i];
 	}
 	return out;
+}
+
+istream& operator >>(istream &in, Neuron &neuron)
+{
+	in>>neuron.in_degree_>>neuron.learning_rate_;
+	in>>neuron.activation_function_ptr_>>neuron.bias_;
+	neuron.weights_.resize(neuron.in_degree_);
+	for(int i = 0; i < neuron.in_degree_; ++i)
+	{
+		in>>neuron.weights_[i];
+	}
+	return in;
 }

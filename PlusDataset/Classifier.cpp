@@ -16,27 +16,20 @@ int main()
 {
 	srand(time(NULL)); rand();
 
-	ReluActivationFunction relu_activation_function;
-	LeakyReluActivationFunction leaky_relu_activation_function;
-	TanhActivationFunction tanh_activation_function;
-	LinearActivationFunction linear_activation_function;
-	SigmoidActivationFunction sigmoid_activation_function;
-	SquaredErrorLossFunction squared_error_loss_function;
-	UniformlyRandomNeuronWeightInitializer uniformly_random_neuron_weight_initializer(0.0, 0.01);
-
+	double l = 0.0, r = 0.01;
 	Layer layers_array[2] = {
-		Layer(400, 40, 0.1, leaky_relu_activation_function, uniformly_random_neuron_weight_initializer),
-		Layer(40, 1, 0.1, sigmoid_activation_function, uniformly_random_neuron_weight_initializer)
+		Layer(400, 40, 0.1, make_shared<LeakyReluActivationFunction>(), make_shared<UniformlyRandomNeuronWeightInitializer>(l, r)),
+		Layer(40, 1, 0.1, make_shared<SigmoidActivationFunction>(), make_shared<UniformlyRandomNeuronWeightInitializer>(l, r))
 	};
 	vector<Layer> layers(layers_array, layers_array + 2);
 
-	NeuralNetwork neuralNetwork(400, layers, squared_error_loss_function);
+	NeuralNetwork neural_network(400, layers, make_shared<SquaredErrorLossFunction>());
 
 	Dataset training_dataset("training.data");
 	cout<<"--------\n";
 	cout<<"### Dataset loaded\n";
 	cout<<"--------\n";
-	vector<double> training_losses = neuralNetwork.train(training_dataset, num_epochs);
+	vector<double> training_losses = neural_network.train(training_dataset, num_epochs);
 	cout<<"--------\n";
 	for(int i = 0; i < num_epochs; ++i)
 	{
@@ -44,14 +37,14 @@ int main()
 	}
 	cout<<"--------\n";
 	Dataset test_dataset("test.data");
-	cout<<"Test Loss: "<<neuralNetwork.test(test_dataset)<<"\n";
+	cout<<"Test Loss: "<<neural_network.test(test_dataset)<<"\n";
 	cout<<"--------\n";
 
 	for(int i = 0; i < 10; ++i)
 	{
 		double label = test_dataset.getLabel(i);
 		vector<double> feature_vector = test_dataset.getFeatureVector(i);
-		double eval = neuralNetwork.evaluate(feature_vector);
+		double eval = neural_network.evaluate(feature_vector);
 
 		cout<<"Test example #"<<i<<":: \n";
 		cout<<"Prediction: "<<eval<<" Label: "<<label<<"\n";

@@ -1,2 +1,9 @@
 all:
-	g++ NeuralNetwork.cpp NeuralNetworkTest.cpp ../Layers/Layer.cpp ../Neurons/Neuron.cpp ../Datasets/Dataset.cpp ../ActivationFunctions/ReluActivationFunction.cpp ../ActivationFunctions/ActivationFunction.cpp ../ActivationFunctions/TanhActivationFunction.cpp ../LossFunctions/SquaredErrorLossFunction.cpp ../LossFunctions/LossFunction.cpp ../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.cpp ../NeuronWeightInitializers/NeuronWeightInitializer.cpp -o NeuralNetworkTest
+	g++ NeuralNetwork.cpp NeuralNetworkTest.cpp \
+	../Layers/Layer.cpp \
+	../Neurons/Neuron.cpp \
+	../Datasets/Dataset.cpp \
+	../ActivationFunctions/ActivationFunctionIO.cpp ../ActivationFunctions/ReluActivationFunction.cpp ../ActivationFunctions/LeakyReluActivationFunction.cpp ../ActivationFunctions/LinearActivationFunction.cpp ../ActivationFunctions/SigmoidActivationFunction.cpp ../ActivationFunctions/TanhActivationFunction.cpp \
+	../LossFunctions/LossFunctionIO.cpp ../LossFunctions/SquaredErrorLossFunction.cpp ../LossFunctions/LogCoshLossFunction.cpp \
+	../NeuronWeightInitializers/NeuronWeightInitializerIO.cpp ../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.cpp \
+	-o NeuralNetworkTest

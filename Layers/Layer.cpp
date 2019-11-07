@@ -2,7 +2,9 @@
 
 using namespace std;
 
-Layer::Layer(int in_degree, int out_degree, double learning_rate, ActivationFunction& activation_function, NeuronWeightInitializer& neuron_weight_initializer):
+Layer::Layer() {}
+
+Layer::Layer(int in_degree, int out_degree, double learning_rate, shared_ptr<ActivationFunction> activation_function, shared_ptr<NeuronWeightInitializer> neuron_weight_initializer):
 	in_degree_(in_degree), out_degree_(out_degree)
 {
 	assert(0.0 - eps_ < learning_rate and learning_rate < 1.0 + eps_);
@@ -85,4 +87,15 @@ ostream& operator <<(ostream &out, const Layer &layer)
 		out<<"\n"<<layer.neurons_[i];
 	}
 	return out;
+}
+
+istream& operator >>(istream &in, Layer &layer)
+{
+	in>>layer.in_degree_>>layer.out_degree_;
+	layer.neurons_.resize(layer.out_degree_);
+	for(int i = 0; i < layer.out_degree_; ++i)
+	{
+		in>>layer.neurons_[i];
+	}
+	return in;
 }

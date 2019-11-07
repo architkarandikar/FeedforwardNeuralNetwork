@@ -6,5 +6,5 @@ bash> ./datagen x training.data test.data
 bash> ./datagen 3 Three/training.data Three/test.data
 bash> cd Three/
 bash> make
-bash> ./Classifier
-	(Takes about 3-4 minutes per Epoch, will output test results into tmp_op.txt)
+bash> ./Classifier 5 x ModelStorage/FiveEpochStorageV0.txt TestDataResults/FiveEpochTestResultsV0.tx
+	(Takes about 5 minutes per Epoch, will output test results into tmp_op.txt)

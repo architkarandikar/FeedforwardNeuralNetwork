@@ -12,6 +12,7 @@ MNISTDataset/train-images-idx3-ubyte.txt
 MNISTDataset/train-labels-idx1-ubyte.txt
 MNISTDataset/training.data
 MNISTDataset/Three/ModelStorage/
+MNISTDataset/Three/TestDataResults/
 
 PlusDataset/Classifier
 PlusDataset/datagen
@@ -21,10 +22,21 @@ PlusDataset/training.data
 Datasets/DatasetTest
 
 ActivationFunctions/ActivationTest
+ActivationFunctions/tmp.txt
+
 LossFunctions/LossFunctionTest
+LossFunctions/tmp.txt
+
 NeuronWeightInitializers/NeuronWeightInitializerTest
+NeuronWeightInitializers/tmp.txt
+
 Neurons/NeuronTest
+Neurons/tmp.txt
+
 Layers/LayerTest
+Layers/tmp.txt
+
 NeuralNetwork/NeuralNetworkTest
+NeuralNetwork/tmp.txt
 
 TempCodeDump/

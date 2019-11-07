@@ -1,6 +1,7 @@
 #include "../ActivationFunctions/ReluActivationFunction.h"
 #include "../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.h"
 #include "Neuron.h"
+#include <fstream>
 
 using namespace std;
 
@@ -8,9 +9,10 @@ int main()
 {
 	srand(time(NULL));
 	
-	ReluActivationFunction reluActivationFunction;
-	UniformlyRandomNeuronWeightInitializer uniformlyRandomNeuronWeightInitializer(0.0, 1.0);
-	Neuron neuron(5, 0.1, reluActivationFunction, uniformlyRandomNeuronWeightInitializer);
+	//ReluActivationFunction reluActivationFunction;
+	//UniformlyRandomNeuronWeightInitializer uniformlyRandomNeuronWeightInitializer(0.0, 1.0);
+	double l = 0.0, r = 1.0;
+	Neuron neuron(5, 0.1, make_shared<ReluActivationFunction>(), make_shared<UniformlyRandomNeuronWeightInitializer>(l, r));
 
 	cout<<"--------\n";
 	cout<<"Neuron weights: "; neuron.printWeights();
@@ -49,6 +51,20 @@ int main()
 	cout<<"Neuron output:\n";
 	cout<<neuron<<"\n";
 	cout<<"--------\n";
+
+	ofstream fout;
+	fout.open("tmp.txt");
+	fout<<neuron<<"\n";
+	fout.close();
+
+	Neuron deserialized_neuron;
+	ifstream fin;
+	fin.open("tmp.txt");
+	fin>>deserialized_neuron;
+	cout<<"Deserialized Neuron output:\n";
+	cout<<deserialized_neuron<<"\n";
+	cout<<"--------\n";
+	fin.close();
 
 	return 0;
 }

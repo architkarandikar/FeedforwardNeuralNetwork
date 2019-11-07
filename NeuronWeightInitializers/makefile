@@ -1,2 +1,2 @@
 all:
-	g++ UniformlyRandomNeuronWeightInitializer.cpp NeuronWeightInitializer.cpp NeuronWeightInitializerTest.cpp -o NeuronWeightInitializerTest
+	g++ UniformlyRandomNeuronWeightInitializer.cpp NeuronWeightInitializerIO.cpp NeuronWeightInitializerTest.cpp -o NeuronWeightInitializerTest

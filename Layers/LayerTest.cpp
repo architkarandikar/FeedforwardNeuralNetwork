@@ -1,6 +1,7 @@
 #include "../ActivationFunctions/ReluActivationFunction.h"
 #include "../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.h"
 #include "Layer.h"
+#include <fstream>
 
 using namespace std;
 
@@ -8,9 +9,8 @@ int main()
 {
 	srand(time(NULL));
 
-	ReluActivationFunction reluActivationFunction;
-	UniformlyRandomNeuronWeightInitializer uniformlyRandomNeuronWeightInitializer(0.0, 1.0);
-	Layer layer(5, 3, 0.1, reluActivationFunction, uniformlyRandomNeuronWeightInitializer);
+	double l = 0.0, r = 1.0;
+	Layer layer(5, 3, 0.1, make_shared<ReluActivationFunction>(), make_shared<UniformlyRandomNeuronWeightInitializer>(l, r));
 
 	cout<<"--------\n";
 	cout<<"In Degree: "<<layer.getInDegree()<<", Out Degree: "<<layer.getOutDegree()<<"\n";
@@ -56,6 +56,20 @@ int main()
 	cout<<"Layer output:\n";
 	cout<<layer<<"\n";
 	cout<<"--------\n";
+
+	ofstream fout;
+	fout.open("tmp.txt");
+	fout<<layer<<"\n";
+	fout.close();
+
+	Layer deserialized_layer;
+	ifstream fin;
+	fin.open("tmp.txt");
+	fin>>deserialized_layer;
+	cout<<"Deserialized Layer output:\n";
+	cout<<deserialized_layer<<"\n";
+	cout<<"--------\n";
+	fin.close();
 
 	return 0;
 }

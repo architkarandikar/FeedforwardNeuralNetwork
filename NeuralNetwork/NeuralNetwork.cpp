@@ -2,8 +2,10 @@
 
 using namespace std;
 
-NeuralNetwork::NeuralNetwork(int in_degree, vector<Layer> layers, LossFunction& loss_function):
-	in_degree_(in_degree), layers_(layers), loss_function_(loss_function)
+NeuralNetwork::NeuralNetwork() {}
+
+NeuralNetwork::NeuralNetwork(int in_degree, vector<Layer> layers, shared_ptr<LossFunction> loss_function_ptr):
+	in_degree_(in_degree), layers_(layers), loss_function_ptr_(loss_function_ptr)
 {
 	assert(in_degree > 0);
 
@@ -45,7 +47,7 @@ void NeuralNetwork::backPropagate(double expected_output, const vector<double>& 
 
 	assert((int)all_inputs.back().size() == 1);
 	double output = all_inputs.back()[0];
-	double loss_derivative_wrt_output = loss_function_.getDerivative(output, expected_output);
+	double loss_derivative_wrt_output = loss_function_ptr_->getDerivative(output, expected_output);
 
 	vector<double> loss_derivative_wrt_outputs = vector<double>(1, loss_derivative_wrt_output);
 	for(int i = num_layers_ - 1; i >= 0; --i)
@@ -78,6 +80,15 @@ int randomGen(int i)
 	return rand() % i;
 }
 
+void trainingStatusUpdate(int i)
+{
+	int frequency = 1000;
+	if (i % frequency == frequency - 1)
+	{
+		cout<<"Here, finished model training for the first "<<i + 1<<" training samples\n";
+	}
+}
+
 double NeuralNetwork::trainEpoch(const Dataset& training_data_set)
 {
 	int num_samples = training_data_set.getNumSamples();
@@ -98,15 +109,12 @@ double NeuralNetwork::trainEpoch(const Dataset& training_data_set)
 		double label = training_data_set.getLabel(index);
 
 		double eval = evaluate(feature_vector);
-		double loss = loss_function_.getLoss(eval, label);
+		double loss = loss_function_ptr_->getLoss(eval, label);
 		total_loss += loss;
 
 		backPropagate(label, feature_vector);
 
-		if (i % 1000 == 0)
-		{
-			cout<<"Here, end of epoch # "<<i<<"\n";
-		}
+		trainingStatusUpdate(i);
 	}
 
 	double average_loss = total_loss / ((double)(num_samples));
@@ -127,7 +135,7 @@ double NeuralNetwork::test(const Dataset& test_data_set)
 		double label = test_data_set.getLabel(i);
 
 		double eval = evaluate(feature_vector);
-		total_loss += loss_function_.getLoss(eval, label);
+		total_loss += loss_function_ptr_->getLoss(eval, label);
 	}
 
 	double average_loss = total_loss / ((double)(num_samples));
@@ -145,10 +153,21 @@ void NeuralNetwork::printWeights() const
 
 ostream& operator <<(ostream &out, const NeuralNetwork &neural_network)
 {
-	out<<neural_network.in_degree_<<" "<<neural_network.loss_function_<<" "<<neural_network.num_layers_;
+	out<<neural_network.in_degree_<<" "<<neural_network.loss_function_ptr_<<" "<<neural_network.num_layers_;
 	for(int i = 0; i < neural_network.num_layers_; ++i)
 	{
 		out<<"\n"<<neural_network.layers_[i];
 	}
 	return out;
+}
+
+istream& operator >>(istream &in, NeuralNetwork &neural_network)
+{
+	in>>neural_network.in_degree_>>neural_network.loss_function_ptr_>>neural_network.num_layers_;
+	neural_network.layers_.resize(neural_network.num_layers_);
+	for(int i = 0; i < neural_network.num_layers_; ++i)
+	{
+		in>>neural_network.layers_[i];
+	}
+	return in;
 }
