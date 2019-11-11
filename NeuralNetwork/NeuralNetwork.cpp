@@ -44,11 +44,10 @@ void NeuralNetwork::backPropagate(double expected_output, const vector<double>& 
 		vector<double> current = all_inputs.back();
 		all_inputs.push_back(layers_[i].evaluate(current));
 	}
-
 	assert((int)all_inputs.back().size() == 1);
 	double output = all_inputs.back()[0];
+	
 	double loss_derivative_wrt_output = loss_function_ptr_->getDerivative(output, expected_output);
-
 	vector<double> loss_derivative_wrt_outputs = vector<double>(1, loss_derivative_wrt_output);
 	for(int i = num_layers_ - 1; i >= 0; --i)
 	{
@@ -57,6 +56,55 @@ void NeuralNetwork::backPropagate(double expected_output, const vector<double>& 
 		layers_[i].backPropagate(loss_derivative_wrt_outputs, all_inputs[i]);
 		loss_derivative_wrt_outputs = loss_derivative_wrt_inputs;
 	}
+}
+
+vector<double> NeuralNetwork::getPredictionDerivativeWrtInputs(const vector<double>& inputs)
+{
+	assert((int)inputs.size() == in_degree_);
+
+	vector<vector<double> > all_inputs = vector<vector<double> >(1, inputs);
+	for(int i = 0; i < num_layers_; ++i)
+	{
+		vector<double> current = all_inputs.back();
+		all_inputs.push_back(layers_[i].evaluate(current));
+	}
+	assert((int)all_inputs.back().size() == 1);
+	
+	vector<double> prediction_derivative_wrt_outputs = vector<double>(1, 1.0);
+	vector<double> prediction_derivative_wrt_inputs;
+	for(int i = num_layers_ - 1; i >= 0; --i)
+	{
+		prediction_derivative_wrt_inputs = layers_[i].getLossDerivativeWrtInputs(prediction_derivative_wrt_outputs, all_inputs[i]);
+		prediction_derivative_wrt_outputs = prediction_derivative_wrt_inputs;
+	}
+	assert((int)prediction_derivative_wrt_inputs.size() == in_degree_);
+	return prediction_derivative_wrt_inputs;
+}
+
+vector<double> NeuralNetwork::getIntegratedGradients(const vector<double>& inputs, const vector<double>& baseline)
+{
+	assert((int)inputs.size() == in_degree_);
+	assert((int)baseline.size() == in_degree_);
+
+	int steps = 1000;
+	double delta = 1.0/((double)(steps));
+
+	vector<double> current = baseline;
+	vector<double> integrated_gradients = vector<double>(in_degree_, 0.0);
+	for(int z = 0; z < steps; ++z)
+	{
+		vector<double> loss_derivative_wrt_inputs = getPredictionDerivativeWrtInputs(current);
+		for(int i = 0; i < in_degree_; ++i)
+			integrated_gradients[i] += delta * loss_derivative_wrt_inputs[i];
+
+		for(int i = 0; i < in_degree_; ++i)
+			current[i] += (inputs[i] - baseline[i]) * delta;
+	}
+	for(int i = 0; i < in_degree_; ++i)
+	{
+		integrated_gradients[i] *= (inputs[i] - baseline[i]);
+	}
+	return integrated_gradients;
 }
 
 vector<double> NeuralNetwork::train(const Dataset& training_data_set, int num_epochs)

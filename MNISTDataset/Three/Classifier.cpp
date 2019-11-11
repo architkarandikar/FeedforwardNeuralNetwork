@@ -19,16 +19,18 @@ int main(int argc, char** argv)
 {
 	string invocation_string = argv[0];
 
-	if (argc != 5)
+	if (argc != 6)
 	{
 		cout<<"Unexpected set of parameters.";
-		cout<<"Format: "<<invocation_string<<" <num_training_epochs> <model_load_file_name> <model_storage_file_name> <test_output_file_name>\n";
+		cout<<"Format: "<<invocation_string<<" <num_training_epochs> <model_load_file_name> <model_storage_file_name> <test_output_file_name> <integrated_gradient_file_name>\n";
 		cout<<"Use 'x' for <model_load_file_name> if you want to train model from initialization.\n";
 		cout<<"Use 'x' for <model_storage_file_name> if you do not want to store model.\n";
 		cout<<"Use 0 for <num_training_epochs> if you want to test already loaded model.\n";
-		cout<<"Example: "<<invocation_string<<" 0 ModelStorage/OneEpochStorageV0.txt x TestDataResults/OneEpochTestResultsV0.txt\n";
-		cout<<"Example: "<<invocation_string<<" 1 ModelStorage/OneEpochStorageV0.txt ModelStorage/TwoEpochStorageV0.txt TestDataResults/TwoEpochTestResultsV0.txt\n";
-		cout<<"Example: "<<invocation_string<<" 5 x ModelStorage/FiveEpochStorageV0.txt TestDataResults/FiveEpochTestResultsV0.txt\n";
+		cout<<"Use 'x' for <integrated_gradient_file_name> if you do not want any integrated gradient analysis.\n";
+		cout<<"Example: "<<invocation_string<<" 0 ModelStorage/OneEpochStorageV0.txt x TestDataResults/OneEpochTestResultsV0.txt x\n";
+		cout<<"Example: "<<invocation_string<<" 1 ModelStorage/OneEpochStorageV0.txt ModelStorage/TwoEpochStorageV0.txt TestDataResults/TwoEpochTestResultsV0.txt x\n";
+		cout<<"Example: "<<invocation_string<<" 5 x ModelStorage/FiveEpochStorageV0.txt TestDataResults/FiveEpochTestResultsV0.txt x\n";
+		cout<<"Example: "<<invocation_string<<" 0 ModelStorage/FiveEpochStorageV0.txt x TestDataResults/FiveEpochTestResultsV0.txt IntegratedGradients/FiveEpochIntegratedGradientsV0.txt\n";
 		return 0;
 	}
 
@@ -36,8 +38,9 @@ int main(int argc, char** argv)
 	string model_load_file_name = argv[2];
 	string model_storage_file_name = argv[3];
 	string test_output_file_name = argv[4];
+	string integrated_gradient_file_name = argv[5];
 	cout<<"--------\n";
-	cout<<"Number of Epochs: "<<num_epochs<<"\nLoad model from file: "<<model_load_file_name<<"\nStore model in file: "<<model_storage_file_name<<"\nOutput test labels in file: "<<test_output_file_name<<"\n";
+	cout<<"Number of Epochs: "<<num_epochs<<"\nLoad model from file: "<<model_load_file_name<<"\nStore model in file: "<<model_storage_file_name<<"\nOutput test labels in file: "<<test_output_file_name<<"\nIntegrated gradients file name: "<<integrated_gradient_file_name<<"\n";
 	cout<<"--------\n";
 
 	srand(time(NULL)); rand();
@@ -91,6 +94,7 @@ int main(int argc, char** argv)
 		++num_thresholds;
 	}
 	vector<int> true_positives(num_thresholds, 0), true_negatives(num_thresholds, 0), false_positives(num_thresholds, 0), false_negatives(num_thresholds, 0);
+	vector<int> positive_label_indices(0);
 
 	ofstream fout_test_output;
 	fout_test_output.open(test_output_file_name);
@@ -130,6 +134,78 @@ int main(int argc, char** argv)
 					++true_negatives[j];
 			}
 		}
+
+		if (label > 0.5)
+		{
+			positive_label_indices.push_back(i);
+		}
+	}
+
+	if (integrated_gradient_file_name != "x")
+	{
+		cout<<"--------\n";
+		cout<<"### Start of integrated gradient analysis\n";
+		cout<<"--------\n";
+		int integrated_gradients_analysis_count = 3;
+		random_shuffle(positive_label_indices.begin(), positive_label_indices.end());
+		ofstream fout_integrated_gradients;
+		fout_integrated_gradients.open(integrated_gradient_file_name);
+		for (int i = 0; i < integrated_gradients_analysis_count; ++i)
+		{
+			double label = test_dataset.getLabel(positive_label_indices[i]);
+			vector<double> feature_vector = test_dataset.getFeatureVector(positive_label_indices[i]);
+
+			double eval = neural_network.evaluate(feature_vector);
+			fout_integrated_gradients<<"--------\n";
+			fout_integrated_gradients<<"Eval for Test Image: "<<eval<<"\n";
+			fout_integrated_gradients<<"Test Image:\n";
+			fout_integrated_gradients<<"--------\n";
+
+			for(int x = 0; x < 28; ++x)
+			{
+				for(int y = 0; y < 28; ++y)
+				{
+					fout_integrated_gradients<<setfill('0')<<setw(3)<<(int)(feature_vector[28 * x + y] + 0.1)<<" ";
+				}
+				fout_integrated_gradients<<"\n";
+			}
+			fout_integrated_gradients<<"--------\n";
+
+			eval = neural_network.evaluate(vector<double>(784, 0.0));
+			fout_integrated_gradients<<"Eval for all zeroes: "<<eval<<"\n";
+			vector<double> integrated_gradients = neural_network.getIntegratedGradients(feature_vector, vector<double>(784, 0.0));
+			fout_integrated_gradients<<"Integrated gradients wrt all zeroes:\n";
+			fout_integrated_gradients<<"--------\n";
+			for(int x = 0; x < 28; ++x)
+			{
+				for(int y = 0; y < 28; ++y)
+				{
+					int op = ((int)(integrated_gradients[28 * x + y] * 999.0));
+					fout_integrated_gradients<<setfill('0')<<setw(3)<<op<<" ";
+				}
+				fout_integrated_gradients<<"\n";
+			}
+			fout_integrated_gradients<<"--------\n";
+
+			eval = neural_network.evaluate(vector<double>(784, 128.0));
+			fout_integrated_gradients<<"Eval for all 128s: "<<eval<<"\n";
+			integrated_gradients = neural_network.getIntegratedGradients(feature_vector, vector<double>(784, 128.0));
+			fout_integrated_gradients<<"Integrated gradients wrt all 128s:\n";
+			fout_integrated_gradients<<"--------\n";
+			for(int x = 0; x < 28; ++x)
+			{
+				for(int y = 0; y < 28; ++y)
+				{
+					int op = ((int)(integrated_gradients[28 * x + y] * 999.0));
+					fout_integrated_gradients<<setfill('0')<<setw(3)<<op<<" ";
+				}
+				fout_integrated_gradients<<"\n";
+			}
+			fout_integrated_gradients<<"--------\n\n\n\n";
+		}
+		fout_integrated_gradients.close();
+		cout<<"### End of integrated gradient analysis\n";
+		cout<<"--------\n";
 	}
 
 	cout<<"\n----------\n";
@@ -144,13 +220,13 @@ int main(int argc, char** argv)
 		cout<<"    precision: "<<fixed<<setw(7)<<setprecision(5)<<precision;
 		cout<<"    recall: "<<fixed<<setw(7)<<setprecision(5)<<recall;
 		cout<<"    f1: "<<fixed<<setw(7)<<setprecision(5)<<f1;
-		cout<<"    accuracy: "<<fixed<<setw(7)<<setprecision(5)<<f1<<"\n";
+		cout<<"    accuracy: "<<fixed<<setw(7)<<setprecision(5)<<accuracy<<"\n";
 
 		fout_test_output<<"threshold: "<<fixed<<setw(4)<<setprecision(2)<<thresholds[i];
 		fout_test_output<<"    precision: "<<fixed<<setw(7)<<setprecision(5)<<precision;
 		fout_test_output<<"    recall: "<<fixed<<setw(7)<<setprecision(5)<<recall;
 		fout_test_output<<"    f1: "<<fixed<<setw(7)<<setprecision(5)<<f1;
-		fout_test_output<<"    accuracy: "<<fixed<<setw(7)<<setprecision(5)<<f1<<"\n";
+		fout_test_output<<"    accuracy: "<<fixed<<setw(7)<<setprecision(5)<<accuracy<<"\n";
 	}
 	fout_test_output<<"--------\n";
 	fout_test_output.close();

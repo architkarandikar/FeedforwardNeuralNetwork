@@ -28,21 +28,37 @@ int main()
 	cout<<"Evaluate all 2s: "<<neural_network.evaluate(vector<double>(5, 2.0))<<"\n";
 	cout<<"--------\n";
 	cout<<"Backpropagate several times with all 1s input and expected output 0, print weights and evaluate again.\n";
-	cout<<"~~~~~~~~\n";
+	cout<<"--------\n";
 	cout<<"Evaluate all 1s: "<<neural_network.evaluate(vector<double>(5, 1.0))<<"\n";
-	cout<<"~~~~~~~~\n";
+	cout<<"--------\n";
 	for (int i = 0; i <= 500; ++i)
 	{
 		if (i % 50 == 0)
+		{
 			cout<<"Backpropagation #"<<i<<"\n";
+		}
 		neural_network.backPropagate(0.0, vector<double>(5, 1.0));
 		if (i % 50 == 0)
 		{
 			neural_network.printWeights();
 			cout<<"Evaluate all 1s: "<<neural_network.evaluate(vector<double>(5, 1.0))<<"\n";
-			cout<<"~~~~~~~~\n";
+			cout<<"Prediction Derivative Wrt Inputs: ";
+			vector<double> prediction_derivative_wrt_inputs = neural_network.getPredictionDerivativeWrtInputs(vector<double>(5, 1.0));
+			for (int i = 0; i < 5; ++i)
+				cout<<prediction_derivative_wrt_inputs[i]<<" ";
+			cout<<"\n";
+			cout<<"--------\n";
 		}
 	}
+
+	cout<<"--------\n";
+	cout<<"Integrated Gradients: ";
+	vector<double> integrated_gradients = neural_network.getIntegratedGradients(vector<double>(5, 1.0), vector<double>(5, 0.0));
+	for (int i = 0; i < 5; ++i)
+		cout<<integrated_gradients[i]<<" ";
+	cout<<"\n";
+	cout<<"--------\n";
+
 	cout<<"--------\n";
 	cout<<"Neural Network Output:\n";
 	cout<<neural_network<<"\n";

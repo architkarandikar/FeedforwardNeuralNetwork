@@ -13,6 +13,7 @@ MNISTDataset/train-labels-idx1-ubyte.txt
 MNISTDataset/training.data
 MNISTDataset/Three/ModelStorage/
 MNISTDataset/Three/TestDataResults/
+MNISTDataset/Three/IntegratedGradients/
 
 PlusDataset/Classifier
 PlusDataset/datagen

@@ -16,6 +16,8 @@ public:
 
 	double evaluate(const vector<double>& inputs) const;
 	void backPropagate(double expected_output, const vector<double>& inputs);
+	vector<double> getPredictionDerivativeWrtInputs(const vector<double>& inputs);
+	vector<double> getIntegratedGradients(const vector<double>& inputs, const vector<double>& baseline);
 
 	vector<double> train(const Dataset& training_dataset, int num_epochs);
 	double test(const Dataset& test_dataset);
