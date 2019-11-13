@@ -4,7 +4,7 @@ A note about coding practices. All of the ..Test.cpp, datagen.cpp and Classifer.
 
 Tests and documentation haven't been added yet, since this is a toy project. There are a bunch of sanity-check tests which are really scripts which are not meant to be clean code. The repository will evolve over time.
 
-Use the READMEs in each folder for detailed instructions. The networks as of now are not robust to a veriety of initial conditions and converge only for very specific initial conditions. Demo: MNISTDataset/Third/MNISTThreeVideo.mov
+Use the READMEs in each folder for detailed instructions. The networks as of now are not robust to a veriety of initial conditions and converge only for very specific initial conditions. Demo: MNISTDataset/Third/MNISTThreeVideo.mov, MNISTDataset/Three/IntegratedGradientsVisualization/integrated_gradients_plot_V0.png
 
 Framework components are in the following folders:
 	ActivationFunctions
@@ -17,5 +17,3 @@ Framework components are in the following folders:
 The following folders contain datasets and classifiers for those datasets:
 	PlusDataset
 	MNISTDataset
-The following folders have no purpose other than dumping temporary code:
-	TempCodeDump
