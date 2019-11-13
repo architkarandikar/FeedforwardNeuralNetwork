@@ -15,6 +15,11 @@ using namespace std;
 
 const double threshold_increment = 0.05;
 
+int random_func(int j) 
+{ 
+    return rand() % j; 
+}
+
 int main(int argc, char** argv)
 {
 	string invocation_string = argv[0];
@@ -94,7 +99,7 @@ int main(int argc, char** argv)
 		++num_thresholds;
 	}
 	vector<int> true_positives(num_thresholds, 0), true_negatives(num_thresholds, 0), false_positives(num_thresholds, 0), false_negatives(num_thresholds, 0);
-	vector<int> positive_label_indices(0);
+	vector<int> positive_label_indices(0), negative_label_indices(0);
 
 	ofstream fout_test_output;
 	fout_test_output.open(test_output_file_name);
@@ -139,6 +144,10 @@ int main(int argc, char** argv)
 		{
 			positive_label_indices.push_back(i);
 		}
+		else
+		{
+			negative_label_indices.push_back(i);
+		}
 	}
 
 	if (integrated_gradient_file_name != "x")
@@ -146,18 +155,21 @@ int main(int argc, char** argv)
 		cout<<"--------\n";
 		cout<<"### Start of integrated gradient analysis\n";
 		cout<<"--------\n";
-		int integrated_gradients_analysis_count = 3;
-		random_shuffle(positive_label_indices.begin(), positive_label_indices.end());
+		int integrated_gradients_analysis_count = 5;
+		random_shuffle(positive_label_indices.begin(), positive_label_indices.end(), random_func);
+		random_shuffle(negative_label_indices.begin(), negative_label_indices.end(), random_func);
 		ofstream fout_integrated_gradients;
 		fout_integrated_gradients.open(integrated_gradient_file_name);
-		for (int i = 0; i < integrated_gradients_analysis_count; ++i)
+		for (int i = 0; i < 2 * integrated_gradients_analysis_count; ++i)
 		{
-			double label = test_dataset.getLabel(positive_label_indices[i]);
-			vector<double> feature_vector = test_dataset.getFeatureVector(positive_label_indices[i]);
+			int index = ((i & 1) == 0) ? positive_label_indices[i/2] : negative_label_indices[i/2];
+			double label = test_dataset.getLabel(index);
+			vector<double> feature_vector = test_dataset.getFeatureVector(index);
 
 			double eval = neural_network.evaluate(feature_vector);
 			fout_integrated_gradients<<"--------\n";
 			fout_integrated_gradients<<"Eval for Test Image: "<<eval<<"\n";
+			fout_integrated_gradients<<"Label for Test Image: "<<label<<"\n";
 			fout_integrated_gradients<<"Test Image:\n";
 			fout_integrated_gradients<<"--------\n";
 
@@ -165,7 +177,7 @@ int main(int argc, char** argv)
 			{
 				for(int y = 0; y < 28; ++y)
 				{
-					fout_integrated_gradients<<setfill('0')<<setw(3)<<(int)(feature_vector[28 * x + y] + 0.1)<<" ";
+					fout_integrated_gradients<<setfill(' ')<<setw(3)<<(int)(feature_vector[28 * x + y] + 0.1)<<" ";
 				}
 				fout_integrated_gradients<<"\n";
 			}
@@ -181,23 +193,7 @@ int main(int argc, char** argv)
 				for(int y = 0; y < 28; ++y)
 				{
 					int op = ((int)(integrated_gradients[28 * x + y] * 999.0));
-					fout_integrated_gradients<<setfill('0')<<setw(3)<<op<<" ";
-				}
-				fout_integrated_gradients<<"\n";
-			}
-			fout_integrated_gradients<<"--------\n";
-
-			eval = neural_network.evaluate(vector<double>(784, 128.0));
-			fout_integrated_gradients<<"Eval for all 128s: "<<eval<<"\n";
-			integrated_gradients = neural_network.getIntegratedGradients(feature_vector, vector<double>(784, 128.0));
-			fout_integrated_gradients<<"Integrated gradients wrt all 128s:\n";
-			fout_integrated_gradients<<"--------\n";
-			for(int x = 0; x < 28; ++x)
-			{
-				for(int y = 0; y < 28; ++y)
-				{
-					int op = ((int)(integrated_gradients[28 * x + y] * 999.0));
-					fout_integrated_gradients<<setfill('0')<<setw(3)<<op<<" ";
+					fout_integrated_gradients<<setfill(' ')<<setw(3)<<op<<" ";
 				}
 				fout_integrated_gradients<<"\n";
 			}
