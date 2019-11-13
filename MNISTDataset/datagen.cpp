@@ -5,11 +5,11 @@
 
 using namespace std;
 
-const string training_images_input_file = "train-images-idx3-ubyte.txt";
-const string training_labels_input_file = "train-labels-idx1-ubyte.txt";
+const string training_images_input_file = "RawData/train-images-idx3-ubyte.txt";
+const string training_labels_input_file = "RawData/train-labels-idx1-ubyte.txt";
 
-const string test_images_input_file = "t10k-images-idx3-ubyte.txt";
-const string test_labels_input_file = "t10k-labels-idx1-ubyte.txt";
+const string test_images_input_file = "RawData/t10k-images-idx3-ubyte.txt";
+const string test_labels_input_file = "RawData/t10k-labels-idx1-ubyte.txt";
 
 void parse_and_format_image(int focus_digit, int label, int num_rows, int num_columns, ifstream& fin_images, ofstream& fout)
 {
