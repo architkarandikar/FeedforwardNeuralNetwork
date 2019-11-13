@@ -4,14 +4,12 @@ uncompress them and copy-paste the data into .txt files named according to the c
 run the following:
 bash> ./datagen x training.data test.data
 bash> ./datagen 3 Three/training.data Three/test.data
-bash> cd Three/
+bash> mkdir Three/ModelStorage/ Three/TestDataResults/ Three/IntegratedGradients/
 bash> make
-bash> mkdir ModelStorage/ TestDataResults/ IntegratedGradients/
 bash> ./Classifier
 	(To see some instructions on parameters)
-bash> ./Classifier 5 x ModelStorage/FiveEpochStorageV0.txt TestDataResults/FiveEpochTestResultsV0.txt x
+bash> ./Classifier Three/training.data Three/test.data 5 x Three/ModelStorage/FiveEpochStorageV0.txt Three/TestDataResults/FiveEpochTestResultsV0.txt x
 	(Takes about 5 minutes per Epoch, will output test results into tmp_op.txt)
-bash> ./Classifier 0 ModelStorage/FiveEpochStorageV0.txt x TestDataResults/FiveEpochTestResultsV0.txt IntegratedGradients/FiveEpochIntegratedGradientsV0.txt
+bash> ./Classifier Three/training.data Three/test.data 0 Three/ModelStorage/FiveEpochStorageV0.txt x Three/TestDataResults/FiveEpochTestResultsV0.txt Three/IntegratedGradients/FiveEpochIntegratedGradientsV0.txt
 	(Can be combined with previous one as well)
-bash> cd IntegratedGradientsVisualization/
-bash> python integrated_gradients_plot.py FiveEpochIntegratedGradientsV0.txt
+bash> python3 IntegratedGradientsVisualization/integrated_gradients_plot.py Three/IntegratedGradients/FiveEpochIntegratedGradientsV0.txt

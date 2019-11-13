@@ -2,18 +2,17 @@ MNISTDataset/datagen
 MNISTDataset/RawData/
 MNISTDataset/test.data
 MNISTDataset/training.data
+MNISTDataset/Classifier
 
 MNISTDataset/Three/ModelStorage/
 MNISTDataset/Three/TestDataResults/
 MNISTDataset/Three/IntegratedGradients/
-MNISTDataset/Three/Classifier
 MNISTDataset/Three/test.data
 MNISTDataset/Three/training.data
 
 MNISTDataset/Four/ModelStorage/
 MNISTDataset/Four/TestDataResults/
 MNISTDataset/Four/IntegratedGradients/
-MNISTDataset/Four/Classifier
 MNISTDataset/Four/test.data
 MNISTDataset/Four/training.data
 

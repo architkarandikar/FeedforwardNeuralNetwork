@@ -1,12 +1,12 @@
-#include "../../ActivationFunctions/ReluActivationFunction.h"
-#include "../../ActivationFunctions/LeakyReluActivationFunction.h"
-#include "../../ActivationFunctions/TanhActivationFunction.h"
-#include "../../ActivationFunctions/LinearActivationFunction.h"
-#include "../../ActivationFunctions/SigmoidActivationFunction.h"
-#include "../../LossFunctions/SquaredErrorLossFunction.h"
-#include "../../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.h"
-#include "../../Datasets/Dataset.h"
-#include "../../NeuralNetwork/NeuralNetwork.h"
+#include "../ActivationFunctions/ReluActivationFunction.h"
+#include "../ActivationFunctions/LeakyReluActivationFunction.h"
+#include "../ActivationFunctions/TanhActivationFunction.h"
+#include "../ActivationFunctions/LinearActivationFunction.h"
+#include "../ActivationFunctions/SigmoidActivationFunction.h"
+#include "../LossFunctions/SquaredErrorLossFunction.h"
+#include "../NeuronWeightInitializers/UniformlyRandomNeuronWeightInitializer.h"
+#include "../Datasets/Dataset.h"
+#include "../NeuralNetwork/NeuralNetwork.h"
 #include <fstream>
 #include <iostream>
 #include <iomanip>
@@ -24,28 +24,30 @@ int main(int argc, char** argv)
 {
 	string invocation_string = argv[0];
 
-	if (argc != 6)
+	if (argc != 8)
 	{
 		cout<<"Unexpected set of parameters.";
-		cout<<"Format: "<<invocation_string<<" <num_training_epochs> <model_load_file_name> <model_storage_file_name> <test_output_file_name> <integrated_gradient_file_name>\n";
+		cout<<"Format: "<<invocation_string<<" <training_file_name> <test_file_name> <num_training_epochs> <model_load_file_name> <model_storage_file_name> <test_output_file_name> <integrated_gradient_file_name>\n";
 		cout<<"Use 'x' for <model_load_file_name> if you want to train model from initialization.\n";
 		cout<<"Use 'x' for <model_storage_file_name> if you do not want to store model.\n";
 		cout<<"Use 0 for <num_training_epochs> if you want to test already loaded model.\n";
 		cout<<"Use 'x' for <integrated_gradient_file_name> if you do not want any integrated gradient analysis.\n";
-		cout<<"Example: "<<invocation_string<<" 0 ModelStorage/OneEpochStorageV0.txt x TestDataResults/OneEpochTestResultsV0.txt x\n";
-		cout<<"Example: "<<invocation_string<<" 1 ModelStorage/OneEpochStorageV0.txt ModelStorage/TwoEpochStorageV0.txt TestDataResults/TwoEpochTestResultsV0.txt x\n";
-		cout<<"Example: "<<invocation_string<<" 5 x ModelStorage/FiveEpochStorageV0.txt TestDataResults/FiveEpochTestResultsV0.txt x\n";
-		cout<<"Example: "<<invocation_string<<" 0 ModelStorage/FiveEpochStorageV0.txt x TestDataResults/FiveEpochTestResultsV0.txt IntegratedGradients/FiveEpochIntegratedGradientsV0.txt\n";
+		cout<<"Example: "<<invocation_string<<" Three/training.data Three/test.data 0 Three/ModelStorage/OneEpochStorageV0.txt x Three/TestDataResults/OneEpochTestResultsV0.txt x\n";
+		cout<<"Example: "<<invocation_string<<" Three/training.data Three/test.data 1 Three/ModelStorage/OneEpochStorageV0.txt Three/ModelStorage/TwoEpochStorageV0.txt Three/TestDataResults/TwoEpochTestResultsV0.txt x\n";
+		cout<<"Example: "<<invocation_string<<" Three/training.data Three/test.data 5 x Three/ModelStorage/FiveEpochStorageV0.txt Three/TestDataResults/FiveEpochTestResultsV0.txt x\n";
+		cout<<"Example: "<<invocation_string<<" Three/training.data Three/test.data 0 Three/ModelStorage/FiveEpochStorageV0.txt x Three/TestDataResults/FiveEpochTestResultsV0.txt Three/IntegratedGradients/FiveEpochIntegratedGradientsV0.txt\n";
 		return 0;
 	}
 
-	int num_epochs = atoi(argv[1]);
-	string model_load_file_name = argv[2];
-	string model_storage_file_name = argv[3];
-	string test_output_file_name = argv[4];
-	string integrated_gradient_file_name = argv[5];
+	string training_file_name = argv[1];
+	string test_file_name = argv[2];
+	int num_epochs = atoi(argv[3]);
+	string model_load_file_name = argv[4];
+	string model_storage_file_name = argv[5];
+	string test_output_file_name = argv[6];
+	string integrated_gradient_file_name = argv[7];
 	cout<<"--------\n";
-	cout<<"Number of Epochs: "<<num_epochs<<"\nLoad model from file: "<<model_load_file_name<<"\nStore model in file: "<<model_storage_file_name<<"\nOutput test labels in file: "<<test_output_file_name<<"\nIntegrated gradients file name: "<<integrated_gradient_file_name<<"\n";
+	cout<<"Training file name: "<<training_file_name<<"\nTest file name: "<<test_file_name<<"\nNumber of Epochs: "<<num_epochs<<"\nLoad model from file: "<<model_load_file_name<<"\nStore model in file: "<<model_storage_file_name<<"\nOutput test labels in file: "<<test_output_file_name<<"\nIntegrated gradients file name: "<<integrated_gradient_file_name<<"\n";
 	cout<<"--------\n";
 
 	srand(time(NULL)); rand();
@@ -76,7 +78,7 @@ int main(int argc, char** argv)
 		fin_load_model.close();
 	}
 
-	Dataset training_dataset("training.data");
+	Dataset training_dataset(training_file_name);
 	cout<<"--------\n";
 	cout<<"### Dataset loaded\n";
 	cout<<"--------\n";
@@ -87,7 +89,7 @@ int main(int argc, char** argv)
 		cout<<"Average Loss for Epoch #"<<i<<": "<<training_losses[i]<<"\n";
 	}
 	cout<<"--------\n";
-	Dataset test_dataset("test.data");
+	Dataset test_dataset(test_file_name);
 	cout<<"Test Loss: "<<neural_network.test(test_dataset)<<"\n";
 	cout<<"--------\n";
 
