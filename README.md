@@ -10,6 +10,8 @@ Demo:
 * MNISTDataset/IntegratedGradientsVisualization/integrated_gradients_plot_3_five_epoch.png
 * MNISTDataset/Three/MNISTThreeVideo.mov
 
+![Integrated Gradients for a binary classifier trained to recognize 4s in the MNIST dataset](https://github.com/architkarandikar/FeedforwardNeuralNetwork/blob/master/MNISTDataset/IntegratedGradientsVisualization/integrated_gradients_plot_4_one_epoch.png)
+
 Framework components are in the following folders:
 * ActivationFunctions
 * LossFunctions
