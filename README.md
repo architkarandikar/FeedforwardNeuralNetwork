@@ -10,6 +10,8 @@ Demo:
 * MNISTDataset/IntegratedGradientsVisualization/integrated_gradients_plot_3_five_epoch.png
 * MNISTDataset/Three/MNISTThreeVideo.mov
 
+The binary classifier used in the figure which follows was trained to recognize the digit 4 (as positive, 1.0) from the MNIST datasets (all other digits are negative, 0.0). As can be seen, the prediction closely matches the label for the test dataset. The integrated gradient plots are meant to distinguish the parts of the image important to the prediction from the unimportant ones so as to provide some interpretability of the model prediction. The dark regions are the most important and the light regions are the least important. Importance is measured as contribution to change in prediction as image gradually changes from a blank image to test image. All digits except 4 and 1 have some horizontal stroke at the top, and accordingly the model shows that the most important part of all five negative instances shown here is some part of the top horizontal stroke. The most important part of the positive instances is the middle horizontal stroke of the 4 and the stem of its two vertical offshoots, which also makes sense.
+
 ![Integrated Gradients for a binary classifier trained to recognize 4s in the MNIST dataset](https://github.com/architkarandikar/FeedforwardNeuralNetwork/blob/master/MNISTDataset/IntegratedGradientsVisualization/integrated_gradients_plot_4_one_epoch.png)
 
 Framework components are in the following folders:
